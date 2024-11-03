@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Core\SocialMediaBackend.Application\SocialMediaBackend.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\SocialMediaBackend.Infrastructure\SocialMediaBackend.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\SocialMediaBackend.Persistence\SocialMediaBackend.Persistence.csproj" />
