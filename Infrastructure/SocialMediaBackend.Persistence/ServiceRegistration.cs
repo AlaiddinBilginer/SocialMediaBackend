@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMediaBackend.Application.Repositories.Categories;
+using SocialMediaBackend.Domain.Entities.Identity;
 using SocialMediaBackend.Persistence.Contexts;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Categories;
 
@@ -15,6 +16,15 @@ namespace SocialMediaBackend.Persistence
             {
                 options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"));
             });
+
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireDigit = true;
+            }).AddEntityFrameworkStores<SocialMediaDbContext>();
 
             services.AddScoped<ICategoryWriteRepository, EfCategoryWriteRepository>();
             services.AddScoped<ICategoryReadRepository, EfCategoryReadRepository>();

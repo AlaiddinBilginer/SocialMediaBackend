@@ -4,8 +4,7 @@ namespace SocialMediaBackend.Domain.Entities.Identity
 {
     public class AppUser : IdentityUser<string>
     {
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        public string FullName { get; set; } = string.Empty;
         public string? ProfilePhoto { get; set; }
         public string? CoverPhoto { get; set; } 
         public string? Bio { get; set; }
