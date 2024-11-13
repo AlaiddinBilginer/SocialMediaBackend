@@ -9,6 +9,7 @@ namespace SocialMediaBackend.Infrastructure
         public static void AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenHandler, TokenHandler>();
         }
     }
 }
