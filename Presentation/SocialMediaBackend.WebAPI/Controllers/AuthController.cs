@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SocialMediaBackend.Application.Features.Auth.Commands.Login;
 using SocialMediaBackend.Application.Features.Auth.Commands.Register;
 
 namespace SocialMediaBackend.WebAPI.Controllers
@@ -18,7 +19,14 @@ namespace SocialMediaBackend.WebAPI.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterCommandRequest request)
         {
-            RegisterCommandResponse response = await _mediator.Send(request);
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody]LoginCommandRequest request)
+        {
+            var response = await _mediator.Send(request);
             return Ok(response);
         }
     }
