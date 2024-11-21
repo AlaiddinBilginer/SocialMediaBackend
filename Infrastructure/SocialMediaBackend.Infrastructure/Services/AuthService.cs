@@ -25,9 +25,12 @@ namespace SocialMediaBackend.Infrastructure.Services
                 return new AuthResponse() { Succeeded = false, Message = "Şifreler uyuşmamaktadır" };
 
             AppUser? userExist = await _userManager.FindByEmailAsync(request.Email);
-
             if (userExist != null)
                 return new AuthResponse() { Succeeded = false, Message = "Girdiğiniz e-posta zaten kullanılmaktadır" };
+
+            AppUser? userExistByUserName = await _userManager.FindByNameAsync(request.UserName);
+            if (userExistByUserName != null)
+                return new AuthResponse() { Succeeded = false, Message = "Girdiğiniz kullanıcı adı zaten kullanılmaktadır" };
 
             AppUser user = new AppUser()
             {
@@ -42,7 +45,7 @@ namespace SocialMediaBackend.Infrastructure.Services
             if (result.Succeeded)
                 return new AuthResponse() { Succeeded = true, Message = "Kaydınız başarılı bir şekilde gerçekleşmiştir" };
             else
-                return new AuthResponse() { Succeeded = false, Message = "Kayıt işlemi başarısız olmuştur" };
+                return new AuthResponse() { Succeeded = false, Message = "Kayıt işlemi başarısız olmuştur." };
         }
 
         public async Task<AuthResponse> LoginAsync(LoginRequest loginRequest, int accessTokenLifeTime)

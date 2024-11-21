@@ -5,14 +5,14 @@ namespace SocialMediaBackend.Domain.Entities
 {
     public class Post : Entity
     {
-        public string Title { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
+        public string? Title { get; set; }
+        public string? Content { get; set; }
 
         public Guid CategoryId { get; set; }
-        public Category Category { get; set; } = new Category();
+        public Category Category { get; set; }
 
         public string AppUserId { get; set; } = string.Empty;
-        public AppUser AppUser { get; set; } = new AppUser();
+        public AppUser AppUser { get; set; }
 
         public ICollection<PostImage> PostImages { get; set; } = new List<PostImage>();
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();

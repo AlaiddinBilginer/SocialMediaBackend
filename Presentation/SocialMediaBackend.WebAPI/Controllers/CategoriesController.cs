@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaBackend.Application.Features.Categories.Commands.CreateCategory;
-using SocialMediaBackend.Application.Repositories.Categories;
-using SocialMediaBackend.Domain.Entities;
+using SocialMediaBackend.Application.Features.Categories.Queries.GetAllCategory;
 
 namespace SocialMediaBackend.WebAPI.Controllers
 {
@@ -11,11 +10,9 @@ namespace SocialMediaBackend.WebAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ICategoryReadRepository _categoryReadRepository;
 
-        public CategoriesController(ICategoryReadRepository categoryReadRepository, IMediator mediator)
+        public CategoriesController(IMediator mediator)
         {
-            _categoryReadRepository = categoryReadRepository;
             _mediator = mediator;
         }
 
@@ -26,11 +23,12 @@ namespace SocialMediaBackend.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(string id)
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
-            Category category = await _categoryReadRepository.GetByIdAsync(id);
-            return Ok(category);
+            var request = new GetAllCategoryQueryRequest();
+            var response = await _mediator.Send(request);
+            return Ok(response);
         }
     }
 }

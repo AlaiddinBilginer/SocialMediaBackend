@@ -12,8 +12,8 @@ using SocialMediaBackend.Persistence.Contexts;
 namespace SocialMediaBackend.Persistence.Migrations
 {
     [DbContext(typeof(SocialMediaDbContext))]
-    [Migration("20241111195709_mig_2")]
-    partial class mig_2
+    [Migration("20241120125343_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -451,14 +451,12 @@ namespace SocialMediaBackend.Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedDate")
