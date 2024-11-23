@@ -4,14 +4,14 @@ namespace SocialMediaBackend.Domain.Entities.Identity
 {
     public class AppUser : IdentityUser<string>
     {
-        public string FullName { get; set; } = string.Empty;
+        public string FullName { get; set; }
         public string? ProfilePhoto { get; set; }
         public string? CoverPhoto { get; set; } 
         public string? Bio { get; set; }
 
-        public ICollection<Post> Posts { get; set; } = new List<Post>();
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
-        public ICollection<Like> Likes { get; set; } = new List<Like>();
-        public ICollection<MessageThreadParticipant> MessageThreads { get; set; } = new List<MessageThreadParticipant>();
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Like> Likes { get; set; }
+        public ICollection<MessageThreadParticipant> MessageThreads { get; set; }
     }
 }

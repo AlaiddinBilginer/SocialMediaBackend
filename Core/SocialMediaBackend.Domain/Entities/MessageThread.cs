@@ -5,8 +5,8 @@ namespace SocialMediaBackend.Domain.Entities
 {
     public class MessageThread : Entity
     {
-        public ICollection<MessageThreadParticipant> Participants { get; set; } = new List<MessageThreadParticipant>();
-        public ICollection<Message> Messages { get; set; } = new List<Message>();
+        public ICollection<MessageThreadParticipant> Participants { get; set; }
+        public ICollection<Message> Messages { get; set; }
 
         [NotMapped]
         public override DateTime UpdatedDate { get => base.UpdatedDate; set => base.UpdatedDate = value; }

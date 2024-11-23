@@ -5,18 +5,18 @@ namespace SocialMediaBackend.Domain.Entities
 {
     public class Comment : Entity
     {
-        public string Content { get; set; } = string.Empty;
+        public string Content { get; set; }
 
-        public string AppUserId { get; set; } = string.Empty;
-        public AppUser AppUser { get; set; } = new AppUser();
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
 
         public Guid PostId { get; set; }
-        public Post Post { get; set; } = new Post();
+        public Post Post { get; set; }
 
         public Guid? ParentCommentId { get; set; }
-        public Comment ParentComment { get; set; } = new Comment();
+        public Comment ParentComment { get; set; }
 
-        public ICollection<Comment> Replies { get; set; } = new List<Comment>();
+        public ICollection<Comment> Replies { get; set; }
 
 
     }

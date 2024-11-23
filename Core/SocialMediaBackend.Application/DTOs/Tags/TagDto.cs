@@ -1,6 +1,6 @@
-﻿namespace SocialMediaBackend.Application.DTOs.Categories
+﻿namespace SocialMediaBackend.Application.DTOs.Tags
 {
-    public class ListCategoryDto
+    public class TagDto
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

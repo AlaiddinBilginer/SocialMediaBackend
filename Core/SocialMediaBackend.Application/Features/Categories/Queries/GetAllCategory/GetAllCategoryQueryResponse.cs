@@ -4,6 +4,7 @@ namespace SocialMediaBackend.Application.Features.Categories.Queries.GetAllCateg
 {
     public class GetAllCategoryQueryResponse
     {
+        public bool Succeeded { get; set; }
         public IQueryable<ListCategoryDto> Categories { get; set; }
     }
 }

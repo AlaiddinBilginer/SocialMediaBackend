@@ -5,12 +5,12 @@ namespace SocialMediaBackend.Domain.Entities
 {
     public class Message : Entity
     {
-        public string Content { get; set; } = string.Empty;
+        public string Content { get; set; }
 
         public Guid SenderId { get; set; }
-        public AppUser AppUser { get; set; } = new AppUser();
+        public AppUser AppUser { get; set; }
 
         public Guid MessageThreadId { get; set; }
-        public MessageThread MessageThread { get; set; } = new MessageThread();
+        public MessageThread MessageThread { get; set; }
     }
 }

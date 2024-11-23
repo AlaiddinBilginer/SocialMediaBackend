@@ -17,12 +17,13 @@ namespace SocialMediaBackend.Application.Features.Categories.Queries.GetAllCateg
         {
             var categories = _categoryReadRepository.GetAll(false).Select(x => new ListCategoryDto()
             {
-                Id = x.Id.ToString(),
+                Id = x.Id,
                 Title = x.Title,
             });
 
             return new GetAllCategoryQueryResponse()
             {
+                Succeeded = true,
                 Categories = categories
             };
         }

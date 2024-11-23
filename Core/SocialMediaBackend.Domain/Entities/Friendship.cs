@@ -7,11 +7,11 @@ namespace SocialMediaBackend.Domain.Entities
 {
     public class Friendship : Entity
     {
-        public string RequesterId { get; set; } = string.Empty;
-        public AppUser Requester { get; set; } = new AppUser();
+        public string RequesterId { get; set; }
+        public AppUser Requester { get; set; }
 
-        public string ReceiverId { get; set; } = string.Empty;
-        public AppUser Receiver { get; set; } = new AppUser();
+        public string ReceiverId { get; set; }
+        public AppUser Receiver { get; set; }
 
         public FriendshipStatus Status { get; set; }
 

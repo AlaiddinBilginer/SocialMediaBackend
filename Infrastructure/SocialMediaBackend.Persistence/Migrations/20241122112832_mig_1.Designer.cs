@@ -12,7 +12,7 @@ using SocialMediaBackend.Persistence.Contexts;
 namespace SocialMediaBackend.Persistence.Migrations
 {
     [DbContext(typeof(SocialMediaDbContext))]
-    [Migration("20241120125343_mig_1")]
+    [Migration("20241122112832_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />

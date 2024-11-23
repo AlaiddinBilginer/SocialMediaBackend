@@ -4,8 +4,8 @@ namespace SocialMediaBackend.Domain.Entities
 {
     public class Tag : Entity
     {
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
-        public ICollection<Post> Posts { get; set; } = new List<Post>();
+        public ICollection<Post> Posts { get; set; }
     }
 }

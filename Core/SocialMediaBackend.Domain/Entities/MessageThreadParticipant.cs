@@ -6,11 +6,11 @@ namespace SocialMediaBackend.Domain.Entities
 {
     public class MessageThreadParticipant : Entity
     {
-        public string AppUserId { get; set; } = string.Empty;
-        public AppUser AppUser { get; set; } = new AppUser();
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
 
         public Guid MessageThreadId { get; set; }
-        public MessageThread MessageThread { get; set; } = new MessageThread();
+        public MessageThread MessageThread { get; set; }
 
         [NotMapped]
         public override DateTime UpdatedDate { get => base.UpdatedDate; set => base.UpdatedDate = value; }
