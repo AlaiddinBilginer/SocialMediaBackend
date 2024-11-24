@@ -24,7 +24,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
 
         [HttpPost("Create")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Create([FromBody]CreatePostCommandRequest request)
+        public async Task<IActionResult> Create([FromForm]CreatePostCommandRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);

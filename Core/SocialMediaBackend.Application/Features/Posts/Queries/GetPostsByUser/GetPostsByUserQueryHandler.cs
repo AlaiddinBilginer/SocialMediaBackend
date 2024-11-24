@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SocialMediaBackend.Application.DTOs.PostImages;
 using SocialMediaBackend.Application.DTOs.Posts;
 using SocialMediaBackend.Application.Repositories.Posts;
@@ -9,10 +10,12 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser
     public class GetPostsByUserQueryHandler : IRequestHandler<GetPostsByUserQueryRequest, GetPostsByUserQueryResponse>
     {
         private readonly IPostReadRepository _postReadRepository;
+        private readonly IConfiguration _configuration;
 
-        public GetPostsByUserQueryHandler(IPostReadRepository postReadRepository)
+        public GetPostsByUserQueryHandler(IPostReadRepository postReadRepository, IConfiguration configuration)
         {
             _postReadRepository = postReadRepository;
+            _configuration = configuration;
         }
 
         public async Task<GetPostsByUserQueryResponse> Handle(GetPostsByUserQueryRequest request, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser
                     UserId = p.AppUserId,
                     UserName = p.AppUser.UserName,
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
-                    PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = pi.Path}).ToList()
+                    PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = _configuration["StorageUrls:LocalStorage"] + pi.Path}).ToList()
                 });
 
             return new GetPostsByUserQueryResponse() { TotalPostCount = totalPostCount, Posts = posts };
