@@ -12,6 +12,8 @@ namespace SocialMediaBackend.Application.DTOs.Posts
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserProfilePhoto { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
         public ICollection<PostImagesDto> PostImages { get; set; }
         
     }

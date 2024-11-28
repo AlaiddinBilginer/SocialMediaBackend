@@ -5,26 +5,26 @@ using SocialMediaBackend.Application.DTOs.PostImages;
 using SocialMediaBackend.Application.DTOs.Posts;
 using SocialMediaBackend.Application.Repositories.Posts;
 
-namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser
+namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCategory
 {
-    public class GetPostsByUserQueryHandler : IRequestHandler<GetPostsByUserQueryRequest, GetPostsByUserQueryResponse>
+    public class GetPostsByCategoryQueryHandler : IRequestHandler<GetPostsByCategoryQueryRequest, GetPostsByCategoryQueryResponse>
     {
         private readonly IPostReadRepository _postReadRepository;
         private readonly IConfiguration _configuration;
 
-        public GetPostsByUserQueryHandler(IPostReadRepository postReadRepository, IConfiguration configuration)
+        public GetPostsByCategoryQueryHandler(IPostReadRepository postReadRepository, IConfiguration configuration)
         {
             _postReadRepository = postReadRepository;
             _configuration = configuration;
         }
 
-        public async Task<GetPostsByUserQueryResponse> Handle(GetPostsByUserQueryRequest request, CancellationToken cancellationToken)
+        public async Task<GetPostsByCategoryQueryResponse> Handle(GetPostsByCategoryQueryRequest request, CancellationToken cancellationToken)
         {
-            int totalPostCount = _postReadRepository.GetAll(false).Count();
+            int totalPostCoynt = _postReadRepository.GetWhere(p => p.Category.Title == request.CategoryName, false).Count();
 
-            var posts = _postReadRepository.GetAll(false)
+            var posts = _postReadRepository.GetWhere(p => p.Category.Title == request.CategoryName, false)
                 .OrderByDescending(p => p.CreatedDate)
-                .Skip(request.Pagination.Page * request.Pagination.Size)
+                .Skip(request.Pagination.Size * request.Pagination.Page)
                 .Take(request.Pagination.Size)
                 .Include(p => p.AppUser)
                 .Include(p => p.PostImages)
@@ -40,10 +40,11 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
-                    PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = _configuration["StorageUrls:LocalStorage"] + pi.Path}).ToList()
+                    PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = _configuration["StorageUrls:LocalStorage"] + pi.Path }).ToList()
                 });
+            
+            return new GetPostsByCategoryQueryResponse() { TotalPostCount = totalPostCoynt, Posts = posts, };
 
-            return new GetPostsByUserQueryResponse() { TotalPostCount = totalPostCount, Posts = posts };
         }
     }
 }

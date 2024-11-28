@@ -7,6 +7,7 @@ using SocialMediaBackend.Application.Features.Posts.Commands.CreatePost;
 using SocialMediaBackend.Application.Features.Posts.Commands.DeletePost;
 using SocialMediaBackend.Application.Features.Posts.Commands.UpdatePost;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetByIdPost;
+using SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCategory;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser;
 
 namespace SocialMediaBackend.WebAPI.Controllers
@@ -61,6 +62,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
             var request = new DeletePostCommandRequest();
             request.Id = id;
 
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetPostsByCategory")]
+        public async Task<IActionResult> GetPostsByCategory([FromQuery]GetPostsByCategoryQueryRequest request)
+        {
             var response = await mediator.Send(request);
             return Ok(response);
         }
