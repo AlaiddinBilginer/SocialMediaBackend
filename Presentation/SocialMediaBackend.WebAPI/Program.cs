@@ -5,6 +5,7 @@ using SocialMediaBackend.Application;
 using SocialMediaBackend.Infrastructure;
 using SocialMediaBackend.Infrastructure.Services.Storage.LocalStorage;
 using SocialMediaBackend.Persistence;
+using SocialMediaBackend.WebAPI.Middlewares.ExceptionHandlingMiddleware;
 using System.Security.Claims;
 using System.Text;
 
@@ -30,6 +31,8 @@ builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddSwaggerGen(option =>
 {
@@ -87,6 +90,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler(opt => { });
 
 app.UseStaticFiles();
 
