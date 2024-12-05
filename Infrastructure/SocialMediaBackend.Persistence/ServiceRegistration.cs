@@ -2,11 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMediaBackend.Application.Repositories.Categories;
+using SocialMediaBackend.Application.Repositories.Comments;
 using SocialMediaBackend.Application.Repositories.PostImages;
 using SocialMediaBackend.Application.Repositories.Posts;
 using SocialMediaBackend.Domain.Entities.Identity;
 using SocialMediaBackend.Persistence.Contexts;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Categories;
+using SocialMediaBackend.Persistence.Repositories.EntityFramework.Comments;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.PostImages;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Posts;
 
@@ -38,6 +40,9 @@ namespace SocialMediaBackend.Persistence
 
             services.AddScoped<IPostImageWriteRepository, EfPostImageWriteRepository>();
             services.AddScoped<IPostImageReadRepository, EfPostImageReadRepository>();
+
+            services.AddScoped<ICommentReadRepository, EfCommentReadRepository>();
+            services.AddScoped<ICommentWriteRepository, EfCommentWriteRepository>();
         }
     }
 }
