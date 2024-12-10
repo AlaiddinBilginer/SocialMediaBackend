@@ -5,6 +5,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsBy
 {
     public class GetCommentsByPostIdQueryRequest : IRequest<GetCommentsByPostIdQueryResponse>
     {
+        public string? UserId { get; set; }
         public string PostId { get; set; }
         public Pagination? Pagination { get; set; } = new Pagination();
     }

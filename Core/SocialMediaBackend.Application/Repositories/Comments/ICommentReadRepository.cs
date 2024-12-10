@@ -2,7 +2,7 @@
 
 namespace SocialMediaBackend.Application.Repositories.Comments
 {
-    public interface ICommentReadRepository : IReadRepository<Comment>
+    public interface ICommentReadRepository : IReadRepository<PostComment>
     {
     }
 }

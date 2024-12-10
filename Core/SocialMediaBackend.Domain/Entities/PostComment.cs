@@ -3,7 +3,7 @@ using SocialMediaBackend.Domain.Entities.Identity;
 
 namespace SocialMediaBackend.Domain.Entities
 {
-    public class Comment : Entity
+    public sealed class PostComment : Entity
     {
         public string Content { get; set; }
 
@@ -14,9 +14,9 @@ namespace SocialMediaBackend.Domain.Entities
         public Post Post { get; set; }
 
         public Guid? ParentCommentId { get; set; }
-        public Comment ParentComment { get; set; }
+        public PostComment ParentComment { get; set; }
 
-        public ICollection<Comment> Replies { get; set; }
+        public ICollection<PostComment> Replies { get; set; }
 
 
     }

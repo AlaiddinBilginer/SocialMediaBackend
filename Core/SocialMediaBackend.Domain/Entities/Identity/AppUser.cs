@@ -10,7 +10,7 @@ namespace SocialMediaBackend.Domain.Entities.Identity
         public string? Bio { get; set; }
 
         public ICollection<Post> Posts { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<PostComment> Comments { get; set; }
         public ICollection<Like> Likes { get; set; }
         public ICollection<MessageThreadParticipant> MessageThreads { get; set; }
     }

@@ -16,7 +16,7 @@ namespace SocialMediaBackend.Domain.Entities
 
         public ICollection<PostImage> PostImages { get; set; }
         public ICollection<Tag> Tags { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<PostComment> Comments { get; set; }
         public ICollection<Like> Likes { get; set; }
     }
 }

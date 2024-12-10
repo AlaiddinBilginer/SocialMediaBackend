@@ -31,7 +31,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.UpdateCommen
         {
             string? userName = _contextAccessor?.HttpContext?.User?.Identity?.Name;
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == userName);
-            Comment? comment = await _commentReadRepository.GetByIdAsync(request.CommentId);
+            PostComment? comment = await _commentReadRepository.GetByIdAsync(request.CommentId);
 
             if(user == null || user.Id != comment.AppUserId || comment == null)
                 return new UpdateCommentCommandResponse { Succeeded = false, Message = "Bu işlemi gerçekleştiremezsiniz" };

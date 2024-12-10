@@ -31,7 +31,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.DeleteCommen
         {
             string? userName = _contextAccessor?.HttpContext?.User?.Identity?.Name;
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == userName);
-            Comment? comment = await _commentReadRepository.GetByIdAsync(request.Id);
+            PostComment? comment = await _commentReadRepository.GetByIdAsync(request.Id);
 
             if(user == null || comment == null || user.Id != comment.AppUserId)
                 return new DeleteCommentCommandResponse { Succeeded = false, Message = "Bu işlemi gerçekleştiremezsiniz" };

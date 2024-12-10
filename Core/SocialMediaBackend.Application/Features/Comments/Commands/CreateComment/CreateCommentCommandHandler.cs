@@ -37,12 +37,18 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateCommen
             if(user == null || post == null)
                 return new CreateCommentCommandResponse { Succeeded = false, Message = "Bu işlemi gerçekleştiremezsiniz" };
 
-            await _commentWriteRepository.AddAsync(new Comment
+            PostComment comment = new PostComment
             {
                 PostId = Guid.Parse(request.PostId),
                 AppUserId = user.Id,
-                Content = request.Content,
-            });
+                Content = request.Content
+            };
+
+            if(request.ParentCommentId != null)
+                comment.ParentCommentId = Guid.Parse(request.ParentCommentId);
+
+            await _commentWriteRepository.AddAsync(comment);
+
             await _commentWriteRepository.SaveAsync();
 
             return new CreateCommentCommandResponse { Succeeded = true, Message = "Yorumunuz başarılı bir şekilde eklendi" };
