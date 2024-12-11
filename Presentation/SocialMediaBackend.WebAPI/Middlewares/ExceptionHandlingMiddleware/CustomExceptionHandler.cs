@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
+using SocialMediaBackend.Domain.Exceptions;
 using System.Text.Json;
 
 
@@ -29,6 +30,11 @@ namespace SocialMediaBackend.WebAPI.Middlewares.ExceptionHandlingMiddleware
                         ErrorMessage = e.ErrorMessage
                     }).ToList();
                     break;
+                case UserNotFoundException userNotFoundException:
+                    statusCode = StatusCodes.Status404NotFound;
+                    errorResponse.StatusCode = statusCode;
+                    errorResponse.Message = userNotFoundException.Message;
+                    break;
             }
 
             httpContext.Response.StatusCode = statusCode;
@@ -36,7 +42,8 @@ namespace SocialMediaBackend.WebAPI.Middlewares.ExceptionHandlingMiddleware
             var jsonResponse = JsonSerializer.Serialize(errorResponse, new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
+                WriteIndented = true,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
             });
 
             await httpContext.Response.WriteAsync(jsonResponse, cancellationToken);
