@@ -16,14 +16,16 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsBy
 
         public async Task<GetCommentsByPostIdQueryResponse> Handle(GetCommentsByPostIdQueryRequest request, CancellationToken cancellationToken)
         {
-            var totalCommentCount = _commentReadRepository.GetAll(false).Where(x => x.PostId == Guid.Parse(request.PostId)).Count();
-            string userId = request.UserId;
+            var totalCommentCount = _commentReadRepository.GetAll(false)
+                .Where(x => x.PostId == Guid.Parse(request.PostId))
+                .Where(x => x.ParentCommentId == null)
+                .Count();
 
             var comments = _commentReadRepository.GetAll(false).Where(x => x.PostId == Guid.Parse(request.PostId))
                 .Where(x => x.ParentCommentId == null)
-                .OrderByDescending(x => x.AppUserId == userId)
+                .OrderByDescending(x => x.AppUserId == request.UserId)
                 .ThenByDescending(x => x.CreatedDate)
-                .Skip(request.Pagination.Page * request.Pagination.Page)
+                .Skip(request.Pagination.Page * request.Pagination.Size)
                 .Take(request.Pagination.Size)
                 .Select(c => new CommentDto
                 {
@@ -32,21 +34,9 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsBy
                     UserId = c.AppUserId,
                     UserName = c.AppUser.UserName,
                     UserProfilePhoto = c.AppUser.ProfilePhoto,
+                    TotalRepliesCount = c.Replies.Count(),
                     CreatedDate = c.CreatedDate,
-                    UpdatedDate = c.UpdatedDate,
-                    Replies = c.Replies
-                        .OrderBy(r => r.CreatedDate)
-                        .Take(1)
-                        .Select(r => new CommentDto
-                        {
-                            Id = r.Id.ToString(),
-                            Content = r.Content,
-                            UserId = r.AppUserId,
-                            UserName = r.AppUser.UserName,
-                            UserProfilePhoto = r.AppUser.ProfilePhoto,
-                            CreatedDate = r.CreatedDate,
-                            UpdatedDate = r.UpdatedDate,
-                        }).ToList()
+                    UpdatedDate = c.UpdatedDate
                 });
 
             return new GetCommentsByPostIdQueryResponse { TotalCommentCount = totalCommentCount, Comments = comments };

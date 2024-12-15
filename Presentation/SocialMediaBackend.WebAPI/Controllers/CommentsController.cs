@@ -6,6 +6,7 @@ using SocialMediaBackend.Application.Features.Comments.Commands.CreateComment;
 using SocialMediaBackend.Application.Features.Comments.Commands.DeleteComment;
 using SocialMediaBackend.Application.Features.Comments.Commands.UpdateComment;
 using SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsByPostId;
+using SocialMediaBackend.Application.Features.Comments.Queries.GetRepliesByParentCommentId;
 
 namespace SocialMediaBackend.WebAPI.Controllers
 {
@@ -49,6 +50,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
         {
             DeleteCommentCommandRequest request = new DeleteCommentCommandRequest();
             request.Id = id;
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetRepliesByParentComment")]
+        public async Task<IActionResult> GetRepliesByParentComment([FromQuery]GetRepliesByParentCommentIdQueryRequest request)
+        {
             var response = await mediator.Send(request);
             return Ok(response);
         }
