@@ -17,6 +17,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetRepliesByP
         {
 
             var replies = _commentReadRepository.GetWhere(x => x.ParentCommentId == Guid.Parse(request.ParentCommentId))
+                .OrderBy(x => x.CreatedDate)
                 .Skip(request.Pagination.Page * request.Pagination.Size)
                 .Take(request.Pagination.Size)
                 .Select(r => new ReplyCommentDto

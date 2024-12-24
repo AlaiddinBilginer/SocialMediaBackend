@@ -6,6 +6,7 @@ using SocialMediaBackend.Application.Repositories.Comments;
 using SocialMediaBackend.Application.Repositories.Posts;
 using SocialMediaBackend.Domain.Entities;
 using SocialMediaBackend.Domain.Entities.Identity;
+using SocialMediaBackend.Domain.Exceptions;
 
 namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateComment
 {
@@ -35,7 +36,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateCommen
             Post? post = await _postReadRepository.GetByIdAsync(request.PostId);
 
             if(user == null || post == null)
-                return new CreateCommentCommandResponse { Succeeded = false, Message = "Bu işlemi gerçekleştiremezsiniz" };
+                throw new UserNotFoundException(request.PostId);
 
             PostComment comment = new PostComment
             {
@@ -51,7 +52,18 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateCommen
 
             await _commentWriteRepository.SaveAsync();
 
-            return new CreateCommentCommandResponse { Succeeded = true, Message = "Yorumunuz başarılı bir şekilde eklendi" };
+            Console.WriteLine(comment);
+
+            return new CreateCommentCommandResponse
+            {
+                Id = comment.Id.ToString(),
+                Content = comment.Content,
+                UserId = comment.AppUserId,
+                UserName = comment.AppUser.UserName,
+                CreatedDate = comment.CreatedDate,
+                UpdatedDate = comment.UpdatedDate,
+                UserProfilePhoto = comment.AppUser.ProfilePhoto,
+            };
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SocialMediaBackend.Domain.Entities;
 using SocialMediaBackend.Domain.Entities.Base;
 using SocialMediaBackend.Domain.Entities.Identity;
+using System.Reflection.Emit;
 
 namespace SocialMediaBackend.Persistence.Contexts
 {
@@ -41,5 +42,15 @@ namespace SocialMediaBackend.Persistence.Contexts
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<PostComment>()
+                .HasOne(pc => pc.ParentComment)
+                .WithMany(pc => pc.Replies)  
+                .HasForeignKey(pc => pc.ParentCommentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(builder);
+        }
     }
 }
