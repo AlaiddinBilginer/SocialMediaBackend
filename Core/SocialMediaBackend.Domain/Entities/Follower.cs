@@ -1,19 +1,16 @@
 ﻿using SocialMediaBackend.Domain.Entities.Base;
 using SocialMediaBackend.Domain.Entities.Identity;
-using SocialMediaBackend.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SocialMediaBackend.Domain.Entities
 {
-    public class Friendship : Entity
+    public sealed class Follower : Entity
     {
-        public string RequesterId { get; set; }
-        public AppUser Requester { get; set; }
+        public string FollowerUserId { get; set; }
+        public AppUser FollowerUser { get; set; }
 
-        public string ReceiverId { get; set; }
-        public AppUser Receiver { get; set; }
-
-        public FriendshipStatus Status { get; set; }
+        public string FollowedUserId { get; set; }
+        public AppUser FollowedUser { get; set; }
 
         [NotMapped]
         public override DateTime UpdatedDate { get => base.UpdatedDate; set => base.UpdatedDate = value; }

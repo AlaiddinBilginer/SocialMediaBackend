@@ -38,6 +38,7 @@ namespace SocialMediaBackend.Infrastructure.Services
                 UserName = request.UserName,
                 Email = request.Email,
                 FullName = request.FullName,
+                AccountCreatedDate = DateTime.UtcNow,
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

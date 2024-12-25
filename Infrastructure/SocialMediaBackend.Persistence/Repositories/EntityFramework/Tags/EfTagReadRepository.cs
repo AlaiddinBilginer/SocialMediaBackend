@@ -4,7 +4,7 @@ using SocialMediaBackend.Persistence.Contexts;
 
 namespace SocialMediaBackend.Persistence.Repositories.EntityFramework.Tags
 {
-    public class EfTagReadRepository : EfReadRepository<Tag, SocialMediaDbContext>, ITagReadRepository
+    public class EfTagReadRepository : EfReadRepository<PostTag, SocialMediaDbContext>, ITagReadRepository
     {
         public EfTagReadRepository(SocialMediaDbContext context) : base(context)
         {

@@ -2,7 +2,7 @@
 
 namespace SocialMediaBackend.Domain.Entities.Identity
 {
-    public class AppRole : IdentityRole<string>
+    public sealed class AppRole : IdentityRole<string>
     {
     }
 }

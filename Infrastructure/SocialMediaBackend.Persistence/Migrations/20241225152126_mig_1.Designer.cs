@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SocialMediaBackend.Persistence.Contexts;
@@ -11,9 +12,11 @@ using SocialMediaBackend.Persistence.Contexts;
 namespace SocialMediaBackend.Persistence.Migrations
 {
     [DbContext(typeof(SocialMediaDbContext))]
-    partial class SocialMediaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241225152126_mig_1")]
+    partial class mig_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,14 +232,8 @@ namespace SocialMediaBackend.Persistence.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("AccountCreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Bio")
                         .HasColumnType("text");
-
-                    b.Property<int>("CommentsCount")
-                        .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -251,12 +248,6 @@ namespace SocialMediaBackend.Persistence.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("FollowersCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("FollowingCount")
-                        .HasColumnType("integer");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -284,9 +275,6 @@ namespace SocialMediaBackend.Persistence.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("PostsCount")
-                        .HasColumnType("integer");
 
                     b.Property<string>("ProfilePhoto")
                         .HasColumnType("text");

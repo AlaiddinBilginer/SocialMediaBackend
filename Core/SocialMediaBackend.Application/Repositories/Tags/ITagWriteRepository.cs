@@ -2,7 +2,7 @@
 
 namespace SocialMediaBackend.Application.Repositories.Tags
 {
-    public interface ITagWriteRepository : IWriteRepository<Tag>
+    public interface ITagWriteRepository : IWriteRepository<PostTag>
     {
     }
 }

@@ -49,10 +49,10 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateCommen
                 comment.ParentCommentId = Guid.Parse(request.ParentCommentId);
 
             await _commentWriteRepository.AddAsync(comment);
-
             await _commentWriteRepository.SaveAsync();
 
-            Console.WriteLine(comment);
+            user.CommentsCount++;
+            await _userManager.UpdateAsync(user);
 
             return new CreateCommentCommandResponse
             {

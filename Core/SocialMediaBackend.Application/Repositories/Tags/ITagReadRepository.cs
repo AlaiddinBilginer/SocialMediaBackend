@@ -2,7 +2,7 @@
 
 namespace SocialMediaBackend.Application.Repositories.Tags
 {
-    public interface ITagReadRepository : IReadRepository<Tag>
+    public interface ITagReadRepository : IReadRepository<PostTag>
     {
     }
 }

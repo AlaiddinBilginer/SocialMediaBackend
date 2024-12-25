@@ -16,13 +16,12 @@ namespace SocialMediaBackend.Persistence.Contexts
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostComment> PostComments { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<PostCategory> PostCategories { get; set; }
+        public DbSet<PostTag> PostTags { get; set; }
         public DbSet<PostImage> PostImages { get; set; }
-        public DbSet<Friendship> Friendships { get; set; }
-        public DbSet<Like> Likes { get; set; }
-        public DbSet<MessageThread> MessageThreads { get; set; }
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<PostLike> PostLikes { get; set; }
+        public DbSet<Follower> Followers { get; set; }
+        public DbSet<CommentLike> CommentLikes { get; set; }
 
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -49,6 +48,22 @@ namespace SocialMediaBackend.Persistence.Contexts
                 .WithMany(pc => pc.Replies)  
                 .HasForeignKey(pc => pc.ParentCommentId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Follower>()
+                .HasIndex(f => new { f.FollowerUserId, f.FollowedUserId })
+                .IsUnique();
+
+            builder.Entity<Follower>()
+                .HasOne(f => f.FollowerUser)
+                .WithMany(u => u.Following)
+                .HasForeignKey(f => f.FollowerUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Follower>()
+                .HasOne(f => f.FollowedUser)
+                .WithMany(u => u.Followers)
+                .HasForeignKey(f => f.FollowedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }

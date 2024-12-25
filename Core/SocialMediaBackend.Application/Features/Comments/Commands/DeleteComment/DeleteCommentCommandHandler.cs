@@ -39,6 +39,9 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.DeleteCommen
             await _commentWriteRepository.DeleteByIdAsync(request.Id);
             await _commentWriteRepository.SaveAsync();
 
+            user.CommentsCount--;
+            await _userManager.UpdateAsync(user);
+
             return new DeleteCommentCommandResponse { Succeeded = true, Message = "Yorumunuz başarılı bir şekilde silindi" };
         }
     }

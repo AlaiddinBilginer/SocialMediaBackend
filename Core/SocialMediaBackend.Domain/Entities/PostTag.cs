@@ -2,10 +2,9 @@
 
 namespace SocialMediaBackend.Domain.Entities
 {
-    public class Category : Entity
+    public sealed class PostTag : Entity
     {
         public string Title { get; set; }
-        public string? Photo { get; set; }
 
         public ICollection<Post> Posts { get; set; }
     }

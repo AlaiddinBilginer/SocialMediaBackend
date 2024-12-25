@@ -39,6 +39,9 @@ namespace SocialMediaBackend.Application.Features.Posts.Commands.DeletePost
             await _postWriteRepository.DeleteByIdAsync(request.Id);
             await _postWriteRepository.SaveAsync();
 
+            user.PostsCount--;
+            await _userManager.UpdateAsync(user);
+
             return new DeletePostCommandResponse() { Succeeded = true, Message = "Gönderi başarılı bir şekilde silinmiştir" };
         }
     }

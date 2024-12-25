@@ -15,7 +15,7 @@ namespace SocialMediaBackend.Application.Features.Categories.Commands.CreateCate
 
         public async Task<CreateCategoryCommandResponse> Handle(CreateCategoryCommandRequest request, CancellationToken cancellationToken)
         {
-            await _categoryWriteRepository.AddAsync(new Category() { Title = request.Title, Photo = request.Photo });
+            await _categoryWriteRepository.AddAsync(new PostCategory() { Title = request.Title, Photo = request.Photo });
             await _categoryWriteRepository.SaveAsync();
 
             return new CreateCategoryCommandSuccessResponse() { Message = "Kategori eklendi" };

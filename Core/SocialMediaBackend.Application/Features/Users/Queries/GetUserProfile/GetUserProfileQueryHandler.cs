@@ -28,6 +28,11 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile
                 Bio = user.Bio,
                 CoverPhoto = user.CoverPhoto,
                 ProfilePhoto = user.ProfilePhoto,
+                PostsCount = user.PostsCount,
+                CommentsCount = user.CommentsCount,
+                FollowersCount = user.FollowersCount,
+                FollowingCount = user.FollowingCount,
+                AccountCreatedDate = user.AccountCreatedDate,
             };
         }
     }

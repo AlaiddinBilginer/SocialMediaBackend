@@ -4,7 +4,7 @@ using SocialMediaBackend.Persistence.Contexts;
 
 namespace SocialMediaBackend.Persistence.Repositories.EntityFramework.Tags
 {
-    public class EfTagWriteRepository : EfWriteRepository<Tag, SocialMediaDbContext>, ITagWriteRepository
+    public class EfTagWriteRepository : EfWriteRepository<PostTag, SocialMediaDbContext>, ITagWriteRepository
     {
         public EfTagWriteRepository(SocialMediaDbContext context) : base(context)
         {

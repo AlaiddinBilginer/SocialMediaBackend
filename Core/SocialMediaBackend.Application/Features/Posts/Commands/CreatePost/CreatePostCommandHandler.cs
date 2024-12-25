@@ -40,7 +40,7 @@ namespace SocialMediaBackend.Application.Features.Posts.Commands.CreatePost
         {
             string? userName = _contextAccessor?.HttpContext?.User?.Identity?.Name;
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userName);
-            Category category = await _categoryReadRepository.GetByIdAsync(request.CategoryId);
+            PostCategory category = await _categoryReadRepository.GetByIdAsync(request.CategoryId);
 
             if (user == null || category == null)
                 return new CreatePostCommandResponse() { Succeeded = false, Message = "Gönderi yüklenirken hata ile karşılaşıldı" };
@@ -56,6 +56,9 @@ namespace SocialMediaBackend.Application.Features.Posts.Commands.CreatePost
                 CategoryId = category.Id,
             });
             await _postWriteRepository.SaveAsync();
+
+            user.PostsCount++;
+            await _userManager.UpdateAsync(user);
 
             if(request.Files != null)
             {

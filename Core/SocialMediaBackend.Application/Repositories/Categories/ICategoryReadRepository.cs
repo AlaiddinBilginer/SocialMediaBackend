@@ -2,7 +2,7 @@
 
 namespace SocialMediaBackend.Application.Repositories.Categories
 {
-    public interface ICategoryReadRepository : IReadRepository<Category>
+    public interface ICategoryReadRepository : IReadRepository<PostCategory>
     {
     }
 }

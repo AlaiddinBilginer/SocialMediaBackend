@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SocialMediaBackend.Domain.Entities
 {
-    public class Like : Entity
+    public sealed class PostLike : Entity
     {
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }

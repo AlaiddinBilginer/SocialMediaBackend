@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SocialMediaBackend.Domain.Entities
 {
-    public class PostImage : Entity
+    public sealed class PostImage : Entity
     {
         public string FileName { get; set; }
         public string Path { get; set; }

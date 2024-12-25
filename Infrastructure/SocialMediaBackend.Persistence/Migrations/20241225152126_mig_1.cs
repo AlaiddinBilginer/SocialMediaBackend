@@ -56,7 +56,7 @@ namespace SocialMediaBackend.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "PostCategories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -67,23 +67,11 @@ namespace SocialMediaBackend.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_PostCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MessageThreads",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MessageThreads", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tags",
+                name: "PostTags",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -93,7 +81,7 @@ namespace SocialMediaBackend.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.PrimaryKey("PK_PostTags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,30 +191,29 @@ namespace SocialMediaBackend.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Friendships",
+                name: "Followers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    RequesterId = table.Column<string>(type: "text", nullable: false),
-                    ReceiverId = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    FollowerUserId = table.Column<string>(type: "text", nullable: false),
+                    FollowedUserId = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Friendships", x => x.Id);
+                    table.PrimaryKey("PK_Followers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Friendships_AspNetUsers_ReceiverId",
-                        column: x => x.ReceiverId,
+                        name: "FK_Followers_AspNetUsers_FollowedUserId",
+                        column: x => x.FollowedUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Friendships_AspNetUsers_RequesterId",
-                        column: x => x.RequesterId,
+                        name: "FK_Followers_AspNetUsers_FollowerUserId",
+                        column: x => x.FollowerUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -236,6 +223,7 @@ namespace SocialMediaBackend.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Content = table.Column<string>(type: "text", nullable: true),
+                    LikeCount = table.Column<int>(type: "integer", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
                     AppUserId = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -251,73 +239,20 @@ namespace SocialMediaBackend.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Posts_Categories_CategoryId",
+                        name: "FK_Posts_PostCategories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        principalTable: "PostCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "PostComments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
-                    SenderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppUserId = table.Column<string>(type: "text", nullable: true),
-                    MessageThreadId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Messages_MessageThreads_MessageThreadId",
-                        column: x => x.MessageThreadId,
-                        principalTable: "MessageThreads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MessageThreadParticipant",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppUserId = table.Column<string>(type: "text", nullable: false),
-                    MessageThreadId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MessageThreadParticipant", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MessageThreadParticipant_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MessageThreadParticipant_MessageThreads_MessageThreadId",
-                        column: x => x.MessageThreadId,
-                        principalTable: "MessageThreads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Content = table.Column<string>(type: "text", nullable: false),
+                    LikeCount = table.Column<int>(type: "integer", nullable: false),
                     AppUserId = table.Column<string>(type: "text", nullable: false),
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
                     ParentCommentId = table.Column<Guid>(type: "uuid", nullable: true),
@@ -326,46 +261,21 @@ namespace SocialMediaBackend.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.PrimaryKey("PK_PostComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_AppUserId",
+                        name: "FK_PostComments_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_Comments_ParentCommentId",
+                        name: "FK_PostComments_PostComments_ParentCommentId",
                         column: x => x.ParentCommentId,
-                        principalTable: "Comments",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Likes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppUserId = table.Column<string>(type: "text", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Likes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "PostComments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Likes_Posts_PostId",
+                        name: "FK_PostComments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -395,7 +305,33 @@ namespace SocialMediaBackend.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostTag",
+                name: "PostLikes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostLikes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PostLikes_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PostLikes_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PostPostTag",
                 columns: table => new
                 {
                     PostsId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -403,17 +339,43 @@ namespace SocialMediaBackend.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostTag", x => new { x.PostsId, x.TagsId });
+                    table.PrimaryKey("PK_PostPostTag", x => new { x.PostsId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_PostTag_Posts_PostsId",
+                        name: "FK_PostPostTag_PostTags_TagsId",
+                        column: x => x.TagsId,
+                        principalTable: "PostTags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PostPostTag_Posts_PostsId",
                         column: x => x.PostsId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommentLikes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    CommentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentLikes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostTag_Tags_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tags",
+                        name: "FK_CommentLikes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentLikes_PostComments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "PostComments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -456,64 +418,60 @@ namespace SocialMediaBackend.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_AppUserId",
-                table: "Comments",
+                name: "IX_CommentLikes_CommentId",
+                table: "CommentLikes",
+                column: "CommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentLikes_UserId",
+                table: "CommentLikes",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Followers_FollowedUserId",
+                table: "Followers",
+                column: "FollowedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Followers_FollowerUserId_FollowedUserId",
+                table: "Followers",
+                columns: new[] { "FollowerUserId", "FollowedUserId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostComments_AppUserId",
+                table: "PostComments",
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ParentCommentId",
-                table: "Comments",
+                name: "IX_PostComments_ParentCommentId",
+                table: "PostComments",
                 column: "ParentCommentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId",
-                table: "Comments",
+                name: "IX_PostComments_PostId",
+                table: "PostComments",
                 column: "PostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Friendships_ReceiverId",
-                table: "Friendships",
-                column: "ReceiverId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Friendships_RequesterId",
-                table: "Friendships",
-                column: "RequesterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Likes_AppUserId",
-                table: "Likes",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Likes_PostId",
-                table: "Likes",
-                column: "PostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_AppUserId",
-                table: "Messages",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_MessageThreadId",
-                table: "Messages",
-                column: "MessageThreadId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MessageThreadParticipant_AppUserId",
-                table: "MessageThreadParticipant",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MessageThreadParticipant_MessageThreadId",
-                table: "MessageThreadParticipant",
-                column: "MessageThreadId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostImages_PostId",
                 table: "PostImages",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostLikes_AppUserId",
+                table: "PostLikes",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostLikes_PostId",
+                table: "PostLikes",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostPostTag_TagsId",
+                table: "PostPostTag",
+                column: "TagsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_AppUserId",
@@ -524,11 +482,6 @@ namespace SocialMediaBackend.Persistence.Migrations
                 name: "IX_Posts_CategoryId",
                 table: "Posts",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostTag_TagsId",
-                table: "PostTag",
-                column: "TagsId");
         }
 
         /// <inheritdoc />
@@ -550,43 +503,37 @@ namespace SocialMediaBackend.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "CommentLikes");
 
             migrationBuilder.DropTable(
-                name: "Friendships");
-
-            migrationBuilder.DropTable(
-                name: "Likes");
-
-            migrationBuilder.DropTable(
-                name: "Messages");
-
-            migrationBuilder.DropTable(
-                name: "MessageThreadParticipant");
+                name: "Followers");
 
             migrationBuilder.DropTable(
                 name: "PostImages");
 
             migrationBuilder.DropTable(
-                name: "PostTag");
+                name: "PostLikes");
+
+            migrationBuilder.DropTable(
+                name: "PostPostTag");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "MessageThreads");
+                name: "PostComments");
+
+            migrationBuilder.DropTable(
+                name: "PostTags");
 
             migrationBuilder.DropTable(
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "Tags");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "PostCategories");
         }
     }
 }

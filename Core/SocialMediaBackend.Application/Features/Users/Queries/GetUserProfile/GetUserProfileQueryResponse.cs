@@ -9,5 +9,10 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile
         public string? ProfilePhoto { get; set; }
         public string? CoverPhoto { get; set; }
         public string? Bio { get; set; }
+        public int PostsCount { get; set; }
+        public int CommentsCount { get; set; }
+        public int FollowersCount { get; set; }
+        public int FollowingCount { get; set; }
+        public DateTime AccountCreatedDate { get; set; }
     }
 }

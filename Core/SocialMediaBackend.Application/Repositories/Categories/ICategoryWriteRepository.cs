@@ -2,7 +2,7 @@
 
 namespace SocialMediaBackend.Application.Repositories.Categories
 {
-    public interface ICategoryWriteRepository : IWriteRepository<Category>
+    public interface ICategoryWriteRepository : IWriteRepository<PostCategory>
     {
     }
 }
