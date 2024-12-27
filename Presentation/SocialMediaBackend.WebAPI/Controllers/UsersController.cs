@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaBackend.Application.Features.Users.Commands.UpdateUserProfile;
+using SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser;
 using SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile;
 
 namespace SocialMediaBackend.WebAPI.Controllers
@@ -31,6 +32,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
         [HttpPut("UpdateUser")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateUser([FromBody]UpdateUserProfileCommandRequest request)
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetPosts")]
+        public async Task<IActionResult> GetPosts([FromQuery]GetPostsByUserQueryRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);
