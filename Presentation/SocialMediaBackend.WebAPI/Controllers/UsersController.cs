@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SocialMediaBackend.Application.Features.Users.Commands.FollowUser;
+using SocialMediaBackend.Application.Features.Users.Commands.UnfollowUser;
 using SocialMediaBackend.Application.Features.Users.Commands.UpdateUserProfile;
 using SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser;
 using SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile;
@@ -20,6 +22,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpGet("GetUserProfile/{userName}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUserProfile([FromRoute]string userName)
         {
             var request = new GetUserProfileQueryRequest();
@@ -40,6 +43,28 @@ namespace SocialMediaBackend.WebAPI.Controllers
         [HttpGet("GetPosts")]
         public async Task<IActionResult> GetPosts([FromQuery]GetPostsByUserQueryRequest request)
         {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("Follow/{followedUserName}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Follow([FromRoute]string followedUserName)
+        {
+            var request = new FollowUserCommandRequest();
+            request.FollowedUserName = followedUserName;
+
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("Unfollow/{unfollowedUserName}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Unfollow([FromRoute]string unfollowedUserName)
+        {
+            var request = new UnfollowUserCommandRequest();
+            request.UnfollowedUserName = unfollowedUserName;
+
             var response = await mediator.Send(request);
             return Ok(response);
         }

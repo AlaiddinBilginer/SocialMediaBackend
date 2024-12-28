@@ -13,6 +13,7 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile
         public int CommentsCount { get; set; }
         public int FollowersCount { get; set; }
         public int FollowingCount { get; set; }
+        public bool IsFollower { get; set; }
         public DateTime AccountCreatedDate { get; set; }
     }
 }
