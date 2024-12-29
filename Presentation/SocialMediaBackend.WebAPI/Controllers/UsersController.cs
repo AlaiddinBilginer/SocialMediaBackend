@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SocialMediaBackend.Application.Features.Users.Commands.FollowUser;
 using SocialMediaBackend.Application.Features.Users.Commands.UnfollowUser;
 using SocialMediaBackend.Application.Features.Users.Commands.UpdateUserProfile;
+using SocialMediaBackend.Application.Features.Users.Queries.GetCommentsByUser;
 using SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser;
 using SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile;
 
@@ -41,6 +42,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpGet("GetPosts")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetPosts([FromQuery]GetPostsByUserQueryRequest request)
         {
             var response = await mediator.Send(request);
@@ -65,6 +67,14 @@ namespace SocialMediaBackend.WebAPI.Controllers
             var request = new UnfollowUserCommandRequest();
             request.UnfollowedUserName = unfollowedUserName;
 
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetComments")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetComments([FromQuery]GetCommentsByUserQueryRequest request)
+        {
             var response = await mediator.Send(request);
             return Ok(response);
         }
