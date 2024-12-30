@@ -8,6 +8,8 @@ using SocialMediaBackend.Application.Features.Users.Commands.UpdateUserProfile;
 using SocialMediaBackend.Application.Features.Users.Queries.GetCommentsByUser;
 using SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser;
 using SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile;
+using SocialMediaBackend.Application.Features.Users.Queries.GetFollowers;
+using SocialMediaBackend.Application.Features.Users.Queries.GetFollowing;
 
 namespace SocialMediaBackend.WebAPI.Controllers
 {
@@ -74,6 +76,22 @@ namespace SocialMediaBackend.WebAPI.Controllers
         [HttpGet("GetComments")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetComments([FromQuery]GetCommentsByUserQueryRequest request)
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetFollowers")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetFollowers([FromQuery]GetFollowersQueryRequest request)
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetFollowing")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetFollowing([FromQuery]GetFollowingQueryRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);
