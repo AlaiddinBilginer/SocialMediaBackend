@@ -10,6 +10,7 @@ using SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser;
 using SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile;
 using SocialMediaBackend.Application.Features.Users.Queries.GetFollowers;
 using SocialMediaBackend.Application.Features.Users.Queries.GetFollowing;
+using SocialMediaBackend.Application.Features.Users.Commands.DeleteFromFollowers;
 
 namespace SocialMediaBackend.WebAPI.Controllers
 {
@@ -93,6 +94,17 @@ namespace SocialMediaBackend.WebAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetFollowing([FromQuery]GetFollowingQueryRequest request)
         {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpDelete("DeleteFromFollowers/{userId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteFromFollowers([FromRoute]string userId)
+        {
+            var request = new DeleteFromFollowersCommandRequest();
+            request.UserId = userId;
+
             var response = await mediator.Send(request);
             return Ok(response);
         }
