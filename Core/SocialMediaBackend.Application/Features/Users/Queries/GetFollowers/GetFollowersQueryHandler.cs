@@ -34,9 +34,7 @@ public class GetFollowersQueryHandler : IRequestHandler<GetFollowersQueryRequest
             UserName = x.FollowerUser.UserName,
             FullName = x.FollowerUser.FullName,
             ProfilePhoto = x.FollowerUser.ProfilePhoto,
-            IsFollowing = _followersReadRepository
-                .GetWhere(f => f.FollowerUser.UserName == request.UserName && f.FollowedUserId == x.FollowerUserId, false)
-                .Any()
+            IsFollowing = IsFollowing(request.InstantUser ?? request.UserName, x.FollowerUserId)
         }).ToList();
 
         return new GetFollowersQueryResponse
@@ -44,5 +42,12 @@ public class GetFollowersQueryHandler : IRequestHandler<GetFollowersQueryRequest
             FollowersCount = followersCount,
             Followers = followersDto
         };
+    }
+
+    private bool IsFollowing(string followerUserName, string followedUserId)
+    {
+        return _followersReadRepository
+            .GetWhere(f => f.FollowerUser.UserName == followerUserName && f.FollowedUserId == followedUserId, false)
+            .Any();
     }
 }
