@@ -15,18 +15,36 @@ public class GetFollowersQueryHandler : IRequestHandler<GetFollowersQueryRequest
     }
 
     public async Task<GetFollowersQueryResponse> Handle(GetFollowersQueryRequest request, CancellationToken cancellationToken)
-    {   
-        var followersQuery = _followersReadRepository
+    {
+        var baseQuery = _followersReadRepository
             .GetWhere(x => x.FollowedUser.UserName == request.UserName)
             .Include(x => x.FollowerUser)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            string searchTerm = request.SearchTerm.ToLower();
+            baseQuery = baseQuery.Where(x =>
+                x.FollowerUser.UserName.ToLower().Contains(searchTerm) ||
+                x.FollowerUser.FullName.ToLower().Contains(searchTerm));
+        }
+
+        var followersCount = await baseQuery.CountAsync(cancellationToken);
+
+        var followers = await baseQuery
             .Skip(request.Pagination.Page * request.Pagination.Size)
-            .Take(request.Pagination.Size);
+            .Take(request.Pagination.Size)
+            .ToListAsync(cancellationToken);
 
-        var followers = await followersQuery.ToListAsync(cancellationToken);
+        var followedUserIds = followers.Select(x => x.FollowerUserId).ToList();
+        
+        var followingUserIds = await _followersReadRepository
+            .GetWhere(f => f.FollowerUser.UserName == (request.InstantUser ?? request.UserName) 
+                        && followedUserIds.Contains(f.FollowedUserId))
+            .Select(f => f.FollowedUserId)
+            .ToListAsync(cancellationToken);
 
-        var followersCount = await _followersReadRepository
-            .GetWhere(x => x.FollowedUser.UserName == request.UserName)
-            .CountAsync(cancellationToken);
+        var followingUserSet = new HashSet<string>(followingUserIds);
 
         var followersDto = followers.Select(x => new FollowerUserDto
         {
@@ -34,7 +52,7 @@ public class GetFollowersQueryHandler : IRequestHandler<GetFollowersQueryRequest
             UserName = x.FollowerUser.UserName,
             FullName = x.FollowerUser.FullName,
             ProfilePhoto = x.FollowerUser.ProfilePhoto,
-            IsFollowing = IsFollowing(request.InstantUser ?? request.UserName, x.FollowerUserId)
+            IsFollowing = followingUserSet.Contains(x.FollowerUserId)
         }).ToList();
 
         return new GetFollowersQueryResponse
@@ -42,12 +60,5 @@ public class GetFollowersQueryHandler : IRequestHandler<GetFollowersQueryRequest
             FollowersCount = followersCount,
             Followers = followersDto
         };
-    }
-
-    private bool IsFollowing(string followerUserName, string followedUserId)
-    {
-        return _followersReadRepository
-            .GetWhere(f => f.FollowerUser.UserName == followerUserName && f.FollowedUserId == followedUserId, false)
-            .Any();
     }
 }
