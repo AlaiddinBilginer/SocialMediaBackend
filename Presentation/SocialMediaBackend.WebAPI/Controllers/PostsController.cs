@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaBackend.Application.Features.Posts.Commands.CreatePost;
 using SocialMediaBackend.Application.Features.Posts.Commands.DeletePost;
+using SocialMediaBackend.Application.Features.Posts.Commands.LikePost;
 using SocialMediaBackend.Application.Features.Posts.Commands.UpdatePost;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetByIdPost;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCategory;
@@ -68,6 +69,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
 
         [HttpGet("GetPostsByCategory")]
         public async Task<IActionResult> GetPostsByCategory([FromQuery]GetPostsByCategoryQueryRequest request)
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("LikePost")]
+        public async Task<IActionResult> LikePost([FromBody]LikePostCommandRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);

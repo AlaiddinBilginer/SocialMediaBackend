@@ -1,4 +1,5 @@
-﻿using SocialMediaBackend.Domain.Entities.Base;
+﻿using System.Linq.Expressions;
+using SocialMediaBackend.Domain.Entities.Base;
 
 namespace SocialMediaBackend.Application.Repositories
 {
@@ -9,6 +10,7 @@ namespace SocialMediaBackend.Application.Repositories
         bool Delete(T entity);
         Task<bool> DeleteByIdAsync(string id);
         bool DeleteRange(List<T> entities);
+        Task<bool> DeleteWhere(Expression<Func<T, bool>> expression);
         bool Update(T entity);
         Task<int> SaveAsync();
     }

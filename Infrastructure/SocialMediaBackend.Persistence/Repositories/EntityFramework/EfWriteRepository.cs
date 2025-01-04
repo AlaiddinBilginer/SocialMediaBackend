@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SocialMediaBackend.Application.Repositories;
 using SocialMediaBackend.Domain.Entities.Base;
@@ -43,6 +44,15 @@ namespace SocialMediaBackend.Persistence.Repositories.EntityFramework
 
             if (entity == null)
                 throw new InvalidOperationException($"No entity of type {typeof(TEntity).Name} with ID {id} was found.");
+
+            return Delete(entity);
+        }
+
+        public async Task<bool> DeleteWhere(Expression<Func<TEntity, bool>> expression)
+        {
+            TEntity? entity = await _context.Set<TEntity>().FirstOrDefaultAsync(expression);
+            if (entity == null)
+                throw new InvalidOperationException($"No entity of type {typeof(TEntity).Name} was found.");
 
             return Delete(entity);
         }

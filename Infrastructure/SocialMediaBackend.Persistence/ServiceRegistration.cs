@@ -5,6 +5,7 @@ using SocialMediaBackend.Application.Repositories.Categories;
 using SocialMediaBackend.Application.Repositories.Comments;
 using SocialMediaBackend.Application.Repositories.Followers;
 using SocialMediaBackend.Application.Repositories.PostImages;
+using SocialMediaBackend.Application.Repositories.PostLikes;
 using SocialMediaBackend.Application.Repositories.Posts;
 using SocialMediaBackend.Domain.Entities.Identity;
 using SocialMediaBackend.Persistence.Contexts;
@@ -12,6 +13,7 @@ using SocialMediaBackend.Persistence.Repositories.EntityFramework.Categories;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Comments;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Followers;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.PostImages;
+using SocialMediaBackend.Persistence.Repositories.EntityFramework.PostLikes;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Posts;
 
 namespace SocialMediaBackend.Persistence
@@ -48,6 +50,9 @@ namespace SocialMediaBackend.Persistence
 
             services.AddScoped<IFollowersReadRepository, EfFollowerReadRepository>();
             services.AddScoped<IFollowersWriteRepository, EfFollowerWriteRepository>();
+
+            services.AddScoped<IPostLikeReadRepository, EfPostLikeReadRepository>();
+            services.AddScoped<IPostLikeWriteRepository, EfPostLikeWriteRepository>();
         }
     }
 }
