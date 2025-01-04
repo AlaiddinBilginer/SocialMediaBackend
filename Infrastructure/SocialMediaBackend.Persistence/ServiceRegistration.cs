@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMediaBackend.Application.Repositories.Categories;
+using SocialMediaBackend.Application.Repositories.CommentLikes;
 using SocialMediaBackend.Application.Repositories.Comments;
 using SocialMediaBackend.Application.Repositories.Followers;
 using SocialMediaBackend.Application.Repositories.PostImages;
@@ -10,6 +11,7 @@ using SocialMediaBackend.Application.Repositories.Posts;
 using SocialMediaBackend.Domain.Entities.Identity;
 using SocialMediaBackend.Persistence.Contexts;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Categories;
+using SocialMediaBackend.Persistence.Repositories.EntityFramework.CommentLikes;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Comments;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.Followers;
 using SocialMediaBackend.Persistence.Repositories.EntityFramework.PostImages;
@@ -53,6 +55,9 @@ namespace SocialMediaBackend.Persistence
 
             services.AddScoped<IPostLikeReadRepository, EfPostLikeReadRepository>();
             services.AddScoped<IPostLikeWriteRepository, EfPostLikeWriteRepository>();
+
+            services.AddScoped<ICommentLikeReadRepository, EfCommentLikeReadRepository>();
+            services.AddScoped<ICommentLikeWriteRepository, EfCommentLikeWriteRepository>();
         }
     }
 }

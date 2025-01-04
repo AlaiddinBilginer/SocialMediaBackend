@@ -36,6 +36,7 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser
                     UserId = p.AppUserId,
                     UserName = p.AppUser.UserName,
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
+                    LikeCount = p.LikeCount,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
                     PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = _configuration["StorageUrls:LocalStorage"] + pi.Path }).ToList()

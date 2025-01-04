@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaBackend.Application.Features.Comments.Commands.CreateComment;
 using SocialMediaBackend.Application.Features.Comments.Commands.DeleteComment;
+using SocialMediaBackend.Application.Features.Comments.Commands.LikeComment;
 using SocialMediaBackend.Application.Features.Comments.Commands.UpdateComment;
 using SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsByPostId;
 using SocialMediaBackend.Application.Features.Comments.Queries.GetRepliesByParentCommentId;
@@ -56,6 +57,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
 
         [HttpGet("GetRepliesByParentComment")]
         public async Task<IActionResult> GetRepliesByParentComment([FromQuery]GetRepliesByParentCommentIdQueryRequest request)
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("LikeComment")]
+        public async Task<IActionResult> LikeComment([FromBody]LikeCommentCommandRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);

@@ -35,6 +35,7 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetByIdPost
                     UserId = p.AppUserId,
                     UserName = p.AppUser.UserName,
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
+                    LikeCount = p.LikeCount,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
                     Tags = p.Tags.Select(t => new TagDto { Id = t.Id, Title = t.Title }).ToList(),

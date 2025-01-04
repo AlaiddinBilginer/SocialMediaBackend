@@ -35,6 +35,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsBy
                     UserName = c.AppUser.UserName,
                     UserProfilePhoto = c.AppUser.ProfilePhoto,
                     TotalRepliesCount = c.Replies.Count(),
+                    LikeCount = c.LikeCount,
                     CreatedDate = c.CreatedDate,
                     UpdatedDate = c.UpdatedDate
                 });
