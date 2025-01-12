@@ -31,6 +31,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpGet("GetCommentsByPostId")]
+        [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetCommentsByPostId([FromQuery]GetCommentsByPostIdQueryRequest request)
         {
             var response = await mediator.Send(request);
@@ -56,6 +57,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpGet("GetRepliesByParentComment")]
+                [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetRepliesByParentComment([FromQuery]GetRepliesByParentCommentIdQueryRequest request)
         {
             var response = await mediator.Send(request);
@@ -63,6 +65,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpPost("LikeComment")]
+        [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> LikeComment([FromBody]LikeCommentCommandRequest request)
         {
             var response = await mediator.Send(request);

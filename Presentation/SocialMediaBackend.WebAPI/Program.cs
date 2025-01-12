@@ -5,6 +5,7 @@ using SocialMediaBackend.Application;
 using SocialMediaBackend.Infrastructure;
 using SocialMediaBackend.Infrastructure.Services.Storage.LocalStorage;
 using SocialMediaBackend.Persistence;
+using SocialMediaBackend.WebAPI;
 using SocialMediaBackend.WebAPI.Middlewares.ExceptionHandlingMiddleware;
 using System.Security.Claims;
 using System.Text;
@@ -26,6 +27,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
+builder.Services.AddWebApiServices();
 builder.Services.AddStorage<LocalStorage>();
 
 builder.Services.AddControllers();

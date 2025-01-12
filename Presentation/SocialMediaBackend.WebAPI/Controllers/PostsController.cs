@@ -33,6 +33,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpGet("GetPostsByUser")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetPostsByUser([FromQuery]GetPostsByUserQueryRequest request)
         {
             var response = await mediator.Send(request);
@@ -40,6 +41,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpGet("GetById")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetById([FromQuery]string id)
         {
             var request = new GetByIdPostQueryRequest();
@@ -68,6 +70,7 @@ namespace SocialMediaBackend.WebAPI.Controllers
         }
 
         [HttpGet("GetPostsByCategory")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetPostsByCategory([FromQuery]GetPostsByCategoryQueryRequest request)
         {
             var response = await mediator.Send(request);

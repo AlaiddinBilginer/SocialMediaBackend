@@ -6,5 +6,6 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCatego
     {
         public int TotalPostCount { get; set; }
         public IQueryable<PostListDto> Posts { get; set; }
+        
     }
 }

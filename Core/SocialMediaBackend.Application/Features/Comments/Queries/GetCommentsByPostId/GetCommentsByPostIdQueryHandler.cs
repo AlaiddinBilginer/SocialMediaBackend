@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SocialMediaBackend.Application.Common.Interfaces;
 using SocialMediaBackend.Application.DTOs.Comments;
 using SocialMediaBackend.Application.Repositories.Comments;
 
@@ -8,10 +9,12 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsBy
     public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPostIdQueryRequest, GetCommentsByPostIdQueryResponse>
     {
         private readonly ICommentReadRepository _commentReadRepository;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetCommentsByPostIdQueryHandler(ICommentReadRepository commentReadRepository)
+        public GetCommentsByPostIdQueryHandler(ICommentReadRepository commentReadRepository, ICurrentUserService currentUserService)
         {
             _commentReadRepository = commentReadRepository;
+            _currentUserService = currentUserService;
         }
 
         public async Task<GetCommentsByPostIdQueryResponse> Handle(GetCommentsByPostIdQueryRequest request, CancellationToken cancellationToken)
@@ -27,6 +30,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsBy
                 .ThenByDescending(x => x.CreatedDate)
                 .Skip(request.Pagination.Page * request.Pagination.Size)
                 .Take(request.Pagination.Size)
+                .Include(x => x.Likes)
                 .Select(c => new CommentDto
                 {
                     Id = c.Id.ToString(),
@@ -35,6 +39,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Queries.GetCommentsBy
                     UserName = c.AppUser.UserName,
                     UserProfilePhoto = c.AppUser.ProfilePhoto,
                     TotalRepliesCount = c.Replies.Count(),
+                    IsLiked = c.Likes.Where(x => x.UserId == _currentUserService.UserId).Any(),
                     LikeCount = c.LikeCount,
                     CreatedDate = c.CreatedDate,
                     UpdatedDate = c.UpdatedDate

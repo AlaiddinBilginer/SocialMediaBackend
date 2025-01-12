@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SocialMediaBackend.Application.Common.Interfaces;
 using SocialMediaBackend.Application.DTOs.PostImages;
 using SocialMediaBackend.Application.DTOs.Posts;
 using SocialMediaBackend.Application.Repositories.Posts;
@@ -11,11 +12,13 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCatego
     {
         private readonly IPostReadRepository _postReadRepository;
         private readonly IConfiguration _configuration;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetPostsByCategoryQueryHandler(IPostReadRepository postReadRepository, IConfiguration configuration)
+        public GetPostsByCategoryQueryHandler(IPostReadRepository postReadRepository, IConfiguration configuration, ICurrentUserService currentUserService)
         {
             _postReadRepository = postReadRepository;
             _configuration = configuration;
+            _currentUserService = currentUserService;
         }
 
         public async Task<GetPostsByCategoryQueryResponse> Handle(GetPostsByCategoryQueryRequest request, CancellationToken cancellationToken)
@@ -28,6 +31,7 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCatego
                 .Take(request.Pagination.Size)
                 .Include(p => p.AppUser)
                 .Include(p => p.PostImages)
+                .Include(p => p.Likes)
                 .Select(p => new PostListDto
                 {
                     Id = p.Id,
@@ -38,6 +42,7 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCatego
                     UserId = p.AppUserId,
                     UserName = p.AppUser.UserName,
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
+                    IsLiked = p.Likes.Where(x => x.AppUserId == _currentUserService.UserId).Any(),
                     LikeCount = p.LikeCount,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,

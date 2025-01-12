@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SocialMediaBackend.Application.Common.Interfaces;
 using SocialMediaBackend.Application.DTOs.PostImages;
 using SocialMediaBackend.Application.DTOs.Posts;
 using SocialMediaBackend.Application.Repositories.Posts;
@@ -10,11 +12,13 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser
     {
         private readonly IPostReadRepository _postReadRepository;
         private readonly IConfiguration _configuration;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetPostsByUserQueryHandler(IPostReadRepository postReadRepository, IConfiguration configuration)
+        public GetPostsByUserQueryHandler(IPostReadRepository postReadRepository, IConfiguration configuration, ICurrentUserService currentUserService)
         {
             _postReadRepository = postReadRepository;
             _configuration = configuration;
+            _currentUserService = currentUserService;
         }
 
         public async Task<GetPostsByUserQueryResponse> Handle(GetPostsByUserQueryRequest request, CancellationToken cancellationToken)
@@ -26,6 +30,7 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser
                 .OrderByDescending(p => p.CreatedDate)
                 .Skip(request.Pagination.Page * request.Pagination.Size)
                 .Take(request.Pagination.Size)
+                .Include(p => p.Likes)
                 .Select(p => new PostListDto
                 {
                     Id = p.Id,
@@ -37,6 +42,7 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser
                     UserName = p.AppUser.UserName,
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
                     LikeCount = p.LikeCount,
+                    IsLiked = p.Likes.Where(x => x.AppUserId == _currentUserService.UserId).Any(),
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
                     PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = _configuration["StorageUrls:LocalStorage"] + pi.Path }).ToList()
