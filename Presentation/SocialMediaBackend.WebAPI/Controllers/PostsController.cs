@@ -10,6 +10,7 @@ using SocialMediaBackend.Application.Features.Posts.Commands.UpdatePost;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetByIdPost;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCategory;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser;
+using SocialMediaBackend.Application.Features.Posts.Queries.GetPublicPosts;
 
 namespace SocialMediaBackend.WebAPI.Controllers
 {
@@ -79,6 +80,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
 
         [HttpPost("LikePost")]
         public async Task<IActionResult> LikePost([FromBody]LikePostCommandRequest request)
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetPublicPosts")]
+        public async Task<IActionResult> GetPublicPosts([FromQuery]GetPublicPostsQueryRequest request) 
         {
             var response = await mediator.Send(request);
             return Ok(response);

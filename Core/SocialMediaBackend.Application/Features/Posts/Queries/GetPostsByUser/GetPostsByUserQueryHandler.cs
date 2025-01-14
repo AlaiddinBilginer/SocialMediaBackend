@@ -23,9 +23,12 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser
 
         public async Task<GetPostsByUserQueryResponse> Handle(GetPostsByUserQueryRequest request, CancellationToken cancellationToken)
         {
-            int totalPostCount = _postReadRepository.GetAll(false).Count();
+            int totalPostCount = _postReadRepository.GetAll(false)
+                .Where(p => p.AppUser.Followers.Any(f => f.FollowerUserId == _currentUserService.UserId))
+                .Count();
 
             var posts = _postReadRepository.GetAll(false)
+                .Where(p => p.AppUser.Followers.Any(f => f.FollowerUserId == _currentUserService.UserId))
                 .OrderByDescending(p => p.CreatedDate)
                 .Skip(request.Pagination.Page * request.Pagination.Size)
                 .Take(request.Pagination.Size)

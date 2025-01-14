@@ -8,6 +8,7 @@
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserProfilePhoto { get; set; }
+        public bool IsLiked { get; set; }
         public int LikeCount { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
