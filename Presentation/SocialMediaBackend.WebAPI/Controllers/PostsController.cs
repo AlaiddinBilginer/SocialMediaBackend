@@ -8,6 +8,7 @@ using SocialMediaBackend.Application.Features.Posts.Commands.DeletePost;
 using SocialMediaBackend.Application.Features.Posts.Commands.LikePost;
 using SocialMediaBackend.Application.Features.Posts.Commands.UpdatePost;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetByIdPost;
+using SocialMediaBackend.Application.Features.Posts.Queries.GetPopularPosts;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCategory;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByUser;
 using SocialMediaBackend.Application.Features.Posts.Queries.GetPublicPosts;
@@ -87,6 +88,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
 
         [HttpGet("GetPublicPosts")]
         public async Task<IActionResult> GetPublicPosts([FromQuery]GetPublicPostsQueryRequest request) 
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetPopularPosts")]
+        public async Task<IActionResult> GetPopularPosts([FromQuery]GetPopularPostsQueryRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);
