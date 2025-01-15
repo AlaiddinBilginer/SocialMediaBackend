@@ -11,6 +11,7 @@ using SocialMediaBackend.Application.Features.Users.Queries.GetUserProfile;
 using SocialMediaBackend.Application.Features.Users.Queries.GetFollowers;
 using SocialMediaBackend.Application.Features.Users.Queries.GetFollowing;
 using SocialMediaBackend.Application.Features.Users.Commands.DeleteFromFollowers;
+using SocialMediaBackend.Application.Features.Users.Queries.SearchUser;
 
 namespace SocialMediaBackend.WebAPI.Controllers
 {
@@ -105,6 +106,13 @@ namespace SocialMediaBackend.WebAPI.Controllers
             var request = new DeleteFromFollowersCommandRequest();
             request.UserId = userId;
 
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("SearchUser")]
+        public async Task<IActionResult> SearchUser([FromQuery]SearchUserQueryRequest request) 
+        {
             var response = await mediator.Send(request);
             return Ok(response);
         }
