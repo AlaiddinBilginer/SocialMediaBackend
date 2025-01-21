@@ -14,6 +14,7 @@ namespace SocialMediaBackend.Application.DTOs.Posts
         public string UserProfilePhoto { get; set; }
         public bool IsLiked { get; set; }
         public int LikeCount { get; set; }
+        public int CommentCount { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public ICollection<PostImagesDto> PostImages { get; set; }

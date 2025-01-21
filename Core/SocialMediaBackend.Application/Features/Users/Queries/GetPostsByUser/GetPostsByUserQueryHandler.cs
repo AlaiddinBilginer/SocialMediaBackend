@@ -42,6 +42,7 @@ namespace SocialMediaBackend.Application.Features.Users.Queries.GetPostsByUser
                     UserName = p.AppUser.UserName,
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
                     LikeCount = p.LikeCount,
+                    CommentCount = p.CommentCount,
                     IsLiked = p.Likes.Where(x => x.AppUserId == _currentUserService.UserId).Any(),
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,

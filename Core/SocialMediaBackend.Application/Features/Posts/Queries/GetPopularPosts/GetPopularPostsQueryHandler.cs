@@ -25,6 +25,7 @@ public class GetPopularPostsQueryHandler : IRequestHandler<GetPopularPostsQueryR
 
         var posts = await _postReadRepository.GetAll(false)
             .OrderByDescending(p => p.LikeCount)
+            .ThenByDescending(p => p.CreatedDate)
             .Skip(request.Pagination.Size * request.Pagination.Page)
             .Take(request.Pagination.Size)
             .Select(p => new PostListDto
@@ -39,6 +40,7 @@ public class GetPopularPostsQueryHandler : IRequestHandler<GetPopularPostsQueryR
                 UserProfilePhoto = p.AppUser.ProfilePhoto,
                 IsLiked = p.Likes.Any(x => x.AppUserId == request.CurrentUserId),
                 LikeCount = p.LikeCount,
+                CommentCount = p.CommentCount,
                 CreatedDate = p.CreatedDate,
                 UpdatedDate = p.UpdatedDate,
                 PostImages = p.PostImages.Select(pi => new PostImagesDto

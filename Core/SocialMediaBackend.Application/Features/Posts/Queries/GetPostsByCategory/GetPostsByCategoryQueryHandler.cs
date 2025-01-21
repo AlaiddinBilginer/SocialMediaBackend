@@ -44,6 +44,7 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetPostsByCatego
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
                     IsLiked = p.Likes.Where(x => x.AppUserId == _currentUserService.UserId).Any(),
                     LikeCount = p.LikeCount,
+                    CommentCount = p.CommentCount,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
                     PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = _configuration["StorageUrls:LocalStorage"] + pi.Path }).ToList()

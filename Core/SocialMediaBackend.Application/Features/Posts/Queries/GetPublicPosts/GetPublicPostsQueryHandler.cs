@@ -33,6 +33,7 @@ public class GetPublicPostsQueryHandler : IRequestHandler<GetPublicPostsQueryReq
                 UserProfilePhoto = p.AppUser.ProfilePhoto,
                 IsLiked = false,
                 LikeCount = p.LikeCount,
+                CommentCount = p.CommentCount,
                 CreatedDate = p.CreatedDate,
                 UpdatedDate = p.UpdatedDate,
                 PostImages = p.PostImages.Select(pi => new PostImagesDto { Path = _configuration["StorageUrls:LocalStorage"] + pi.Path }).ToList()

@@ -19,7 +19,7 @@ namespace SocialMediaBackend.Application.Features.Auth.Commands.Login
             {
                 UserNameOrEmail = request.UserNameOrEmail,
                 Password = request.Password,
-            }, 15);
+            }, 120);
 
             if(response.Succeeded)
                 return new LoginCommandSuccessResponse() { Message = response.Message, Token = response.Token };

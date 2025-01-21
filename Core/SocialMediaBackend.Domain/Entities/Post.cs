@@ -8,6 +8,7 @@ namespace SocialMediaBackend.Domain.Entities
         public string? Title { get; set; }
         public string? Content { get; set; }
         public int LikeCount { get; set; }
+        public int CommentCount { get; set; }
 
         public Guid CategoryId { get; set; }
         public PostCategory Category { get; set; }

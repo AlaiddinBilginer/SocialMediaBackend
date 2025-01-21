@@ -14,6 +14,7 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateCommen
     {
         private readonly ICommentWriteRepository _commentWriteRepository;
         private readonly IPostReadRepository _postReadRepository;
+        private readonly IPostWriteRepository _postWriteRepository;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<AppUser> _userManager;
 
@@ -21,12 +22,14 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateCommen
             ICommentWriteRepository commentWriteRepository,
             IHttpContextAccessor contextAccessor,
             UserManager<AppUser> userManager,
-            IPostReadRepository postReadRepository)
+            IPostReadRepository postReadRepository,
+            IPostWriteRepository postWriteRepository)
         {
             _commentWriteRepository = commentWriteRepository;
             _contextAccessor = contextAccessor;
             _userManager = userManager;
             _postReadRepository = postReadRepository;
+            _postWriteRepository = postWriteRepository;
         }
 
         public async Task<CreateCommentCommandResponse> Handle(CreateCommentCommandRequest request, CancellationToken cancellationToken)
@@ -53,6 +56,9 @@ namespace SocialMediaBackend.Application.Features.Comments.Commands.CreateCommen
 
             user.CommentsCount++;
             await _userManager.UpdateAsync(user);
+
+            post.CommentCount++;
+            await _postWriteRepository.SaveAsync();
 
             return new CreateCommentCommandResponse
             {

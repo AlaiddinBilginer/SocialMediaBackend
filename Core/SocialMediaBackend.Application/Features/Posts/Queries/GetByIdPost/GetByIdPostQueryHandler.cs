@@ -41,6 +41,7 @@ namespace SocialMediaBackend.Application.Features.Posts.Queries.GetByIdPost
                     UserProfilePhoto = p.AppUser.ProfilePhoto,
                     IsLiked = p.Likes.Where(x => x.AppUserId == _currentUserService.UserId).Any(),
                     LikeCount = p.LikeCount,
+                    CommentCount = p.CommentCount,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
                     Tags = p.Tags.Select(t => new TagDto { Id = t.Id, Title = t.Title }).ToList(),
